@@ -1,0 +1,21 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "Firebase": {
+    "ProjectId": "abc",
+    "CredentialsPath": "abc.json"
+  },
+  "Gemini": {
+    "ApiKey": "abc"
+  },
+  "Kestrel": {
+    "EndpointDefaults": {
+      "Protocols": "Http2"
+    }
+  }
+}
