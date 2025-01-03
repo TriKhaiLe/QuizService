@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+option csharp_namespace = "QuizService";
+
+package quiz;
+
+service QuizManager {
+  // Create quiz using Gemini API
+  rpc CreateQuiz (CreateQuizRequest) returns (QuizResponse);
+  
+  // Get quiz details
+  rpc GetQuiz (GetQuizRequest) returns (QuizResponse);
+  
+  // Edit quiz
+  rpc EditQuiz (EditQuizRequest) returns (QuizResponse);
+  
+  // List quizzes for admin
+  rpc ListQuizzes (ListQuizzesRequest) returns (ListQuizzesResponse);
+  
+  // Get quiz for gameplay
+  rpc GetQuizForPlay (GetQuizRequest) returns (QuizPlayResponse);
+  
+  // Validate answer
+  rpc ValidateAnswer (ValidateAnswerRequest) returns (ValidateAnswerResponse);
+}
+
+message CreateQuizRequest {
+  string topic = 1;
+  int32 number_of_questions = 2;
+}
+
+message GetQuizRequest {
+  string quiz_id = 1;
+}
+
+message EditQuizRequest {
+  string quiz_id = 1;
+  Quiz quiz = 2;
+}
+
+message ListQuizzesRequest {
+  int32 page_size = 1;
+  string page_token = 2;
+}
+
+message ListQuizzesResponse {
+  repeated QuizSummary quizzes = 1;
+  string next_page_token = 2;
+}
+
+message QuizSummary {
+  string quiz_id = 1;
+  string topic = 2;
+  int32 question_count = 3;
+  string created_at = 4;
+}
+
+message Quiz {
+  string quiz_id = 1;
+  string topic = 2;
+  repeated Question questions = 3;
+  string created_at = 4;
+  string created_by = 5;
+}
+
+message Question {
+  string question_id = 1;
+  string content = 2;
+  repeated string options = 3;
+  int32 correct_option_index = 4;
+}
+
+message QuizResponse {
+  Quiz quiz = 1;
+}
+
+message QuizPlayResponse {
+  string quiz_id = 1;
+  string topic = 2;
+  repeated PlayQuestion questions = 3;
+}
+
+message PlayQuestion {
+  string question_id = 1;
+  string content = 2;
+  repeated string options = 3;
+}
+
+message ValidateAnswerRequest {
+  string quiz_id = 1;
+  string question_id = 2;
+  int32 selected_option_index = 3;
+}
+
+message ValidateAnswerResponse {
+  bool is_correct = 1;
+  string feedback = 2;
+}
